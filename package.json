@@ -1,0 +1,30 @@
+{
+  "name": "form-api-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kunknown/form-api-project.git"
+  },
+  "author": "Kaushal Patel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kunknown/form-api-project/issues"
+  },
+  "homepage": "https://github.com/kunknown/form-api-project#readme",
+  "dependencies": {
+    "express": "^4.18.3",
+    "nodemon": "^3.1.0",
+    "typescript": "^5.3.3"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.11.24"
+  }
+}
