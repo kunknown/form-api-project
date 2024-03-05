@@ -30,7 +30,7 @@ router.get("/:formId/filteredResponses", async (req, res) => {
     const formattedDecodedResponse = JSON.parse(stringDecodedResponse as string);
     const wholeResponse: TWholeResponse = formattedDecodedResponse;
     const responses: TResponse[] = wholeResponse.responses;
-
+    console.log('total', responses.length);
     const filteredWholeResponse: TWholeResponse = applyQueryParams(responses, queryParams);
     res.status(200).send(filteredWholeResponse);
   };

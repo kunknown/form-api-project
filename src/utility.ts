@@ -1,16 +1,24 @@
 import { TFilterClause, TQueryParams, TQuestions, TResponse, TWholeResponse } from "./types";
 
 const doesQuestionPassFilter = (question: TQuestions, filter: TFilterClause): boolean => {
+  if (!question.value) {
+    return false;
+  }
+  
   const compare = (questionValue: Date | number | string, filterValue: Date | number | string, operation: string) => {
-    if (operation === 'does_not_equal') {
-      return questionValue !== filterValue;
-    } else if (operation === 'greater_than') {
-      return questionValue > filterValue;
-    } else if (operation === 'less_than') {
-      return questionValue < filterValue;
-    } else {
-      return questionValue === filterValue;
+    console.log('compare', questionValue, filterValue);
+    if(questionValue && filterValue) {
+      if (operation === 'does_not_equal') {
+        return questionValue !== filterValue;
+      } else if (operation === 'greater_than') {
+        return questionValue > filterValue;
+      } else if (operation === 'less_than') {
+        return questionValue < filterValue;
+      } else {
+        return questionValue === filterValue
+      }
     }
+    return false;
   }
   
   if (question.type === "DatePicker") {
@@ -22,7 +30,7 @@ const doesQuestionPassFilter = (question: TQuestions, filter: TFilterClause): bo
     const questionValue = Number(question.value);
     return compare(questionValue, filterValue, filter.condition);
   } else { //string
-    return compare(question.value, filter.value, filter.condition);
+    return compare(question.value.toString().toLocaleLowerCase(), filter.value.toString().toLowerCase(), filter.condition);
   }
 }
 
@@ -41,14 +49,17 @@ const applyFilter = (responses: TResponse[], filters: string): TResponse[] => {
       const filterInfoArr = filter.split('less_than');
       filterObjArr.push({id: filterInfoArr[0], condition: 'less_than', value: filterInfoArr[1]});
     } else {
-      const filterInfoArr = filter.split('does_not_equals');
+      const filterInfoArr = filter.split('does_not_equal');
       filterObjArr.push({id: filterInfoArr[0], condition: 'does_not_equal', value: filterInfoArr[1]});
     }
   })
   // question response types: LongAnswer, MultipleChoice, ShortAnswer, EmailInput, DatePicker, NumberInput,
+  console.log('filters', filterArr, filterObjArr);
   return responses.filter(response => {
     let filterCheckPassed = true;
+    // console.log('response', response);
     response.questions.forEach(question => {
+      // console.log('question', question);
       const filterToApply = filterObjArr.find(filter => question.id === filter.id);
       if (filterToApply && filterCheckPassed) {
         filterCheckPassed = doesQuestionPassFilter(question, filterToApply);
@@ -117,31 +128,39 @@ const applyEditLink = (responses: TResponse[]) => {
 
 export const applyQueryParams = (responses: TResponse[], queryParams: TQueryParams): TWholeResponse => {
   let filteredResponses: TResponse[] = [...responses];
+  console.log('*1', filteredResponses.length);
   const { sort, afterDate, beforeDate, filters, offset, limit, includeEditLink } = queryParams;
   // sort
   filteredResponses = applySort(filteredResponses, sort);
+  console.log('*2', filteredResponses.length);
   // dates
   if (afterDate || beforeDate) {
     filteredResponses = applyDateRange(filteredResponses, beforeDate, afterDate);
+    console.log('*3', filteredResponses.length);
   }
   // filters
   if (filters) {
     filteredResponses = applyFilter(filteredResponses, filters);
+    console.log('*4', filteredResponses.length);
   }
+  const preOffsetLimitFilteredResponses = [...filteredResponses];
   // offset
   if (offset) {
     filteredResponses = applyOffset(filteredResponses, offset);
+    console.log('*5', filteredResponses.length);
   }
   // limit
-  filteredResponses = applyLimit(filteredResponses, Number(limit));
+  filteredResponses = applyLimit(filteredResponses, limit ? Number(limit) : undefined);
+  console.log('*6', filteredResponses.length);
   // includeEditLink
   if (includeEditLink) {
     filteredResponses = applyEditLink(filteredResponses);
+    console.log('*7', filteredResponses.length);
   }
   // getTotalResponses
-  const totalResponses = filteredResponses.length;
+  const totalResponses = preOffsetLimitFilteredResponses.length;
   // getPageCount
-  const pageCount = totalResponses / (limit ?? 150);
+  const pageCount = Math.ceil(totalResponses / (limit ?? 150));
   // return results
   return {responses: filteredResponses, pageCount, totalResponses};
 };
