@@ -2,10 +2,11 @@
   "name": "form-api-project",
   "version": "1.0.0",
   "description": "",
-  "main": "./src/index.ts",
+  "main": "./src/app.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon",
+    "dev": "npx ts-node ./src/app.ts",
+    "start": "node ./build/index.js",
     "build": "tsc"
   },
   "repository": {

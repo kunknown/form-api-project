@@ -19,10 +19,10 @@ Offset by 3 - /cLZojxk94ous/filteredResponses?offset=3
 ### Limit
 Limit by 5 - /cLZojxk94ous/filteredResponses?limit=5
 
-## Edit Link
+### Edit Link
 Add Edit Link - /cLZojxk94ous/filteredResponses?includeEditLink=true
 
-## Filters
+### Filters
 Filter by check-in date before June 1, 2024 UTC - /cLZojxk94ous/filteredResponses?filters=dSRAe3hygqVwTpPK69p5tdless_than'2024-06-01T05:00:00.000Z'
 Filter by employee count greater than 2 - /cLZojxk94ous/filteredResponses?filters=fFnyxwWa3KV6nBdfBDCHEAgreater_than2
 Filter by Email not empty - /cLZojxk94ous/filteredResponses?filters=kc6S6ThWu3cT5PVZkwKUg4does_not_equal

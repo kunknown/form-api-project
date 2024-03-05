@@ -1,4 +1,4 @@
-import { TFilterClause, TQueryParams, TQuestions, TResponse, TWholeResponse } from "@/types";
+import { TFilterClause, TQueryParams, TQuestions, TResponse, TWholeResponse } from "./types";
 
 const doesQuestionPassFilter = (question: TQuestions, filter: TFilterClause): boolean => {
   const compare = (questionValue: Date | number | string, filterValue: Date | number | string, operation: string) => {

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { TResponse, TWholeResponse } from "@/types";
+import { TResponse, TWholeResponse } from "./types";
 import { applyQueryParams } from "./utility";
 
 export const router = Router();
