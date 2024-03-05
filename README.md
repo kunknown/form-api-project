@@ -2,7 +2,7 @@
 
 ## Features
 
-NOTE: `status` query param is not included as there was no clarity on what fields represent the `in_progress` or `finished` status.
+NOTE: `status` query param is not included as I had no clarity on which fields represent the `in_progress` or `finished` status.
 
 ### Sorting
 - Ascending order (oldest first) - https://form-api-project.onrender.com/cLZojxk94ous/filteredResponses
